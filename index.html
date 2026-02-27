@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>R7 ( BUKTI SERAH KIRIM )POSIND - SPX</title>
+<title>R7 ( BUKTI SERAH KIRIM ) POSIND - SPX</title>
 
 <script src="https://unpkg.com/html5-qrcode"></script>
 <script src="https://cdn.jsdelivr.net/npm/qrcode/build/qrcode.min.js"></script>
@@ -29,101 +29,420 @@
 --navy:#0F172A;
 --navy2:#1E293B;
 --orange:#FF6A00;
---bg:#F1F5F9;
+--orange2:#ff7e29;
+--bg:#0b1220;
+--card:#111827;
+--glass:rgba(255,255,255,0.05);
 }
-*{box-sizing:border-box;}
+
+*{
+box-sizing:border-box;
+transition:all .3s ease;
+}
+
 body{
 margin:0;
 font-family:'Poppins',sans-serif;
-background:var(--bg);
-}
-.header{
-background:linear-gradient(135deg,var(--navy),var(--navy2));
+background:linear-gradient(135deg,#0b1220,#0F172A 40%,#111827);
 color:white;
-padding:15px;
 }
-.header-top{
-display:flex;
-justify-content:space-between;
-align-items:center;
-}
-.header img{
-height:45px;
-}
-.header-title{
+
+/* ================= HEADER ================= */
+.header{
+background:linear-gradient(135deg,var(--navy),#111827);
+padding:30px 15px 25px;
 text-align:center;
-font-weight:700;
-margin-top:10px;
-font-size:16px;
+position:relative;
+box-shadow:0 10px 40px rgba(0,0,0,0.6);
+border-bottom:2px solid rgba(255,106,0,0.3);
 }
+
+/* LOGO */
+.logo-wrapper{
+display:flex;
+justify-content:center;
+margin-bottom:15px;
+}
+
+.logo-circle{
+width:160px;
+height:160px;
+border-radius:50%;
+background:linear-gradient(145deg,#0f172a,#1e293b);
+display:flex;
+align-items:center;
+justify-content:center;
+overflow:hidden;
+box-shadow:
+0 0 30px rgba(255,106,0,0.8),
+0 0 60px rgba(255,106,0,0.4),
+inset 0 0 15px rgba(255,255,255,0.05);
+border:3px solid #FF6A00;
+}
+
+.logo-circle img{
+width:85%;
+height:85%;
+object-fit:contain;
+}
+
+.header-title{
+font-weight:700;
+font-size:18px;
+letter-spacing:1px;
+color:white;
+text-shadow:0 0 10px rgba(255,106,0,0.6);
+}
+
+/* ================= CONTAINER ================= */
 .container{
-padding:15px;
+padding:20px;
 max-width:900px;
 margin:auto;
 }
+
+/* ================= CARD ================= */
 .card{
-background:white;
-padding:15px;
-border-radius:16px;
-box-shadow:0 5px 15px rgba(0,0,0,0.08);
-margin-bottom:15px;
+background:var(--card);
+padding:18px;
+border-radius:18px;
+margin-bottom:20px;
+box-shadow:
+0 8px 25px rgba(0,0,0,0.6),
+inset 0 0 20px rgba(255,255,255,0.03);
+border:1px solid rgba(255,255,255,0.05);
 }
-label{font-weight:600;font-size:13px;}
+
+/* ================= FORM ================= */
+label{
+font-weight:600;
+font-size:13px;
+color:#cbd5e1;
+}
+
 input{
 width:100%;
-padding:12px;
-margin-top:5px;
-margin-bottom:12px;
-border-radius:12px;
-border:1px solid #ddd;
+padding:14px;
+margin-top:6px;
+margin-bottom:14px;
+border-radius:14px;
+border:1px solid rgba(255,255,255,0.1);
+background:#0f172a;
+color:white;
+box-shadow:
+inset 0 0 10px rgba(0,0,0,0.6),
+0 0 8px rgba(255,106,0,0.2);
 }
+
+input:focus{
+outline:none;
+border:1px solid var(--orange);
+box-shadow:
+0 0 12px var(--orange),
+inset 0 0 10px rgba(0,0,0,0.7);
+transform:translateY(-2px);
+}
+
+/* ================= BUTTON ================= */
 button{
 width:100%;
 padding:14px;
 border:none;
-border-radius:12px;
+border-radius:14px;
 font-weight:600;
-margin-top:8px;
 cursor:pointer;
+margin-top:10px;
+letter-spacing:0.5px;
 }
-.btn-primary{background:var(--navy);color:white;}
-.btn-orange{background:var(--orange);color:white;}
-.btn-danger{background:#e53935;color:white;}
-.btn-success{background:#2ecc71;color:white;}
-.btn-excel{background:#f39c12;color:white;}
+
+.btn-primary{
+background:linear-gradient(135deg,var(--navy),#1e293b);
+color:white;
+box-shadow:0 0 12px rgba(255,106,0,0.4);
+}
+
+.btn-orange{
+background:linear-gradient(135deg,var(--orange),var(--orange2));
+color:white;
+box-shadow:0 0 15px rgba(255,106,0,0.7);
+}
+
+.btn-success{
+background:linear-gradient(135deg,#16a34a,#22c55e);
+color:white;
+box-shadow:0 0 12px rgba(34,197,94,0.6);
+}
+
+.btn-danger{
+background:linear-gradient(135deg,#b91c1c,#ef4444);
+color:white;
+box-shadow:0 0 12px rgba(239,68,68,0.6);
+}
+
+.btn-excel{
+background:linear-gradient(135deg,#d97706,#f59e0b);
+color:white;
+box-shadow:0 0 12px rgba(245,158,11,0.6);
+}
+
+button:hover{
+transform:translateY(-3px);
+box-shadow:0 8px 20px rgba(255,106,0,0.6);
+}
+
+/* ================= TABLE ================= */
 table{
 width:100%;
 border-collapse:collapse;
 font-size:13px;
+border-radius:12px;
+overflow:hidden;
 }
+
 th{
-background:var(--navy);
+background:linear-gradient(135deg,var(--navy),#1e293b);
 color:white;
 padding:10px;
 }
+
 td{
 padding:8px;
-border-bottom:1px solid #eee;
+border-bottom:1px solid rgba(255,255,255,0.05);
 text-align:center;
+color:#e2e8f0;
 }
-.total-box{
-text-align:center;
+
+tr:hover{
+background:rgba(255,106,0,0.08);
+}
+
+/* ================= COUNTER ================= */
+#scanCounter{
+font-size:16px;
 font-weight:700;
-margin-top:10px;
+color:var(--orange);
+text-shadow:0 0 10px var(--orange);
 }
-#notif{
-text-align:center;
+
+/* ================= NOTIF ================= */
+.success{
+color:#22c55e;
 font-weight:600;
-margin-top:10px;
 }
-.success{color:green;}
-.error{color:red;}
+
+.error{
+color:#ef4444;
+font-weight:600;
+}
+
+/* ================= SIGNATURE ================= */
 canvas{
 width:100%;
 max-width:300px;
-border:1px solid #ddd;
-border-radius:10px;
+border-radius:12px;
+background:white;
 }
+
+/* ================= TOTAL BERAT SUPER KEREN ================= */
+.total-box{
+    margin-top:15px;
+    text-align:center;
+    font-size:20px;
+    font-weight:700;
+    padding:15px;
+    border-radius:16px;
+    background:linear-gradient(135deg,#0f172a,#1e293b);
+    box-shadow:
+        0 0 20px rgba(255,106,0,0.6),
+        inset 0 0 20px rgba(255,255,255,0.05);
+    border:2px solid rgba(255,106,0,0.4);
+    color:#FF6A00;
+    text-shadow:
+        0 0 10px #FF6A00,
+        0 0 20px rgba(255,106,0,0.7);
+    letter-spacing:1px;
+}
+
+#totalBerat{
+    font-size:24px;
+    font-weight:900;
+    color:#ffffff;
+    text-shadow:
+        0 0 10px #ffffff,
+        0 0 20px #FF6A00,
+        0 0 30px #FF6A00;
+}
+
+/* ================= FORM NEON TIMBUL ================= */
+input{
+    width:100%;
+    padding:14px;
+    margin-top:6px;
+    margin-bottom:14px;
+    border-radius:16px;
+    border:1px solid rgba(255,255,255,0.1);
+    background:linear-gradient(145deg,#0f172a,#111827);
+    color:white;
+    font-weight:500;
+    box-shadow:
+        6px 6px 15px rgba(0,0,0,0.6),
+        -4px -4px 12px rgba(255,255,255,0.03),
+        inset 0 0 10px rgba(0,0,0,0.7);
+}
+
+input:focus{
+    outline:none;
+    border:1px solid #FF6A00;
+    box-shadow:
+        0 0 15px #FF6A00,
+        0 0 30px rgba(255,106,0,0.6),
+        inset 0 0 15px rgba(0,0,0,0.8);
+    transform:translateY(-3px) scale(1.02);
+}
+
+/* ================= LABEL LEBIH MODERN ================= */
+label{
+    font-weight:600;
+    font-size:13px;
+    color:#e2e8f0;
+    letter-spacing:0.5px;
+    text-transform:uppercase;
+    text-shadow:
+        0 0 5px rgba(255,255,255,0.2);
+}
+
+/* ================= LOGO PROPORSIONAL ================= */
+.logo-circle{
+    width:110px;
+    height:110px;
+    border-radius:50%;
+    background:linear-gradient(145deg,#0f172a,#1e293b);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    overflow:hidden;
+    box-shadow:
+        0 0 25px rgba(255,106,0,0.7),
+        0 0 50px rgba(255,106,0,0.4),
+        inset 0 0 15px rgba(255,255,255,0.05);
+    border:2px solid #FF6A00;
+}
+
+.logo-circle img{
+    width:75%;
+    height:75%;
+    object-fit:contain;
+}
+
+/* =========================
+   SUKSES SCAN LEBIH BESAR
+========================= */
+#scanCounter{
+    font-size:22px !important;
+    font-weight:900 !important;
+    letter-spacing:1px;
+    text-align:center;
+    padding:10px;
+    border-radius:14px;
+    background:linear-gradient(135deg,#0f172a,#1e293b);
+    border:2px solid rgba(255,106,0,0.4);
+    box-shadow:
+        0 0 15px rgba(255,106,0,0.6),
+        inset 0 0 15px rgba(255,255,255,0.05);
+    color:#FF6A00;
+    text-shadow:
+        0 0 10px #FF6A00,
+        0 0 20px rgba(255,106,0,0.7);
+    animation: glowScan 2s infinite alternate;
+}
+
+@keyframes glowScan{
+    from{
+        box-shadow:
+            0 0 10px rgba(255,106,0,0.4),
+            inset 0 0 10px rgba(255,255,255,0.05);
+    }
+    to{
+        box-shadow:
+            0 0 25px rgba(255,106,0,0.9),
+            0 0 40px rgba(255,106,0,0.5),
+            inset 0 0 15px rgba(255,255,255,0.08);
+    }
+}
+
+/* =========================
+   NOTIF REQUEST & SUCCESS
+========================= */
+.success,
+.error{
+    font-size:35px;
+    font-weight:700;
+    text-align:center;
+    padding:8px;
+    border-radius:12px;
+    letter-spacing:0.5px;
+    animation: notifGlow 1.5s ease-in-out infinite alternate;
+}
+
+.success{
+    color:#22c55e;
+    text-shadow:0 0 10px #22c55e;
+}
+
+.error{
+    color:#ef4444;
+    text-shadow:0 0 10px #ef4444;
+}
+
+@keyframes notifGlow{
+    from{ opacity:0.8; }
+    to{ opacity:1; }
+}
+
+/* =========================
+   TOMBOL HIDUP / BERNAFAS
+========================= */
+button{
+    position:relative;
+    overflow:hidden;
+    transition:all 0.3s ease;
+}
+
+button::after{
+    content:"";
+    position:absolute;
+    top:0;
+    left:-100%;
+    width:100%;
+    height:100%;
+    background:linear-gradient(
+        120deg,
+        transparent,
+        rgba(255,255,255,0.3),
+        transparent
+    );
+    transition:all 0.6s;
+}
+
+button:hover::after{
+    left:100%;
+}
+
+button:hover{
+    transform:translateY(-4px) scale(1.03);
+}
+
+/* efek denyut pelan */
+button{
+    animation: buttonPulse 3s infinite ease-in-out;
+}
+
+@keyframes buttonPulse{
+    0%{ box-shadow:0 0 10px rgba(255,106,0,0.4); }
+    50%{ box-shadow:0 0 20px rgba(255,106,0,0.8); }
+    100%{ box-shadow:0 0 10px rgba(255,106,0,0.4); }
+}
+
 </style>
 
 <!-- FIREBASE REALTIME SYNC -->
@@ -152,6 +471,11 @@ const db = firebase.database();
 
 <div class="header">
 <div class="header-top">
+</div>
+<div class="logo-wrapper">
+    <div class="logo-circle">
+        <img src="SPX-OUTBOUND.png" alt="Logo">
+    </div>
 </div>
 <div class="header-title">
 BUKTI SERAH KIRIM ( R7 )<br>
@@ -192,7 +516,7 @@ POSIND ➜ SPX
 <div class="card">
 
 <!-- COUNTER SCAN -->
-<div id="scanCounter" 
+<div id="scanCounter"
      style="text-align:center;
             font-size:16px;
             font-weight:700;
@@ -201,11 +525,15 @@ POSIND ➜ SPX
 Total Scan Berhasil : 0  
 </div>
 
+<!-- PINDAHKAN NOTIF KE SINI -->
+<div id="notif"
+     style="text-align:center;
+            margin-bottom:8px;">
+</div>
+
 <div id="reader"></div>
 
-<div id="notif"></div>
-
-<div id="lastScan" 
+<div id="lastScan"
      style="text-align:center;
             font-weight:bold;
             margin-top:8px;
@@ -629,12 +957,14 @@ win.document.write(`
 <style>
 @page { 
 size:A4 portrait; 
-margin:0mm; 
+margin:1mm 5mm;   /* Atas-Bawah 12mm, Kiri-Kanan 15mm */
 }
 
 body{
 font-family:Arial;
 margin:0;
+padding:0 5mm;     /* Tambahan jarak kiri kanan */
+box-sizing:border-box;
 }
 
 .page{
@@ -778,6 +1108,16 @@ rightTable += `</table>`;
 win.document.write(`
 <div class="page">
 
+<!-- LOGO POJOK KIRI PALING UJUNG -->
+<img src="Logo PosIND.png" 
+     style="
+        position:absolute;
+        top:5mm;
+        left:5mm;
+        width:60px;
+        height:auto;
+     ">
+
 <div class="judul">
 DAFTAR LAMPIRAN R7
 </div>
@@ -787,7 +1127,7 @@ Dari KCU BATAM 29400 Tujuan PEKANBARU
 
 ${p===0 ? `
 <div class="info" style="font-size:12px;margin-top:5px;">
-
+<br><br><br>
 <div style="display:flex;">
 <div style="width:130px;"><strong>Nama Driver</strong></div>
 <div style="width:15px;">:</div>
