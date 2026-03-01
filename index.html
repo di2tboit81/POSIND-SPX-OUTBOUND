@@ -965,7 +965,7 @@ ctx.clearRect(0,0,canvas.width,canvas.height);
 
 function generateNomorDokumen(){
 let d=new Date();
-return "STK-SPX-POSIND/"+d.getFullYear()+
+return "STK-ESP-POSIND/"+d.getFullYear()+
 ("0"+(d.getMonth()+1)).slice(-2)+
 ("0"+d.getDate()).slice(-2)+
 "/"+Math.floor(Math.random()*1000);
@@ -1016,7 +1016,7 @@ let win=window.open("","","width=900,height=1200");
 win.document.write(`
 <html>
 <head>
-<title>Serah_Terima_R7_${fileTime}</title>
+<title>SERAH_TERIMA_R7_${fileTime}</title>
 <style>
 @page { 
 size:A4 portrait; 
@@ -1820,5 +1820,6 @@ function hapusSemua(){
 </script>
 </body>
 </html>
+
 
 
