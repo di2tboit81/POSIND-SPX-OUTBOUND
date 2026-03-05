@@ -550,23 +550,26 @@ POSIND ➜ ESP
 
 <div class="card">
 
-<label>Tanggal</label>
+<label>TANGGAL</label>
 <input type="text" id="tanggal" readonly>
 
-<label>Nama Petugas R7</label>
+<label>NAMA PETUGAS R7</label>
 <input type="text" id="petugas">
 
-<label>Nama Driver</label>
+<label>NAMA DRIVER</label>
 <input type="text" id="driver">
 
-<label>No Polisi</label>
+<label>NO POLISI</label>
 <input type="text" id="nopol">
 
-<label>Angkutan</label>
+<label>ANGKUTAN</label>
 <input type="text" id="angkutan">
 
-<label>Mode</label>
+<label>MODE</label>
 <input type="text" id="mode">
+
+<label>NO SURAT PERMOHONAN RETUR</label>
+<input type="text" id="nosurat">
 
 </div>
 
@@ -739,6 +742,7 @@ let driver=document.getElementById("driver").value;
 let nopol=document.getElementById("nopol").value;
 let angkutan=document.getElementById("angkutan").value;
 let mode=document.getElementById("mode").value;
+let nosurat=document.getElementById("nosurat").value;
 
 if(!petugas||!driver||!nopol||!angkutan||!mode){
 alert("Oiii KIMBEK...Lengkapi Data Driver Dulu!");
@@ -985,6 +989,7 @@ let driver=document.getElementById("driver").value;
 let nopol=document.getElementById("nopol").value;
 let angkutan=document.getElementById("angkutan").value;
 let mode=document.getElementById("mode").value;
+let nosurat=document.getElementById("nosurat").value;
 let nomor=generateNomorDokumen();
 let signatureImage=canvas.toDataURL("image/png");
 
@@ -997,6 +1002,7 @@ Nama Driver   : ${driver}
 No Polisi     : ${nopol}
 Angkutan      : ${angkutan}
 Mode          : ${mode}
+No Surat Permohonan Retur        : ${nosurat}
 Total Kantong : ${scannedBarcodes.length}
 `;
 QRCode.toDataURL(qrData,function(err,url){
@@ -1192,33 +1198,39 @@ ${p===0 ? `
 <div class="info" style="font-size:12px;margin-top:5px;">
 <br><br><br>
 <div style="display:flex;">
-<div style="width:130px;"><strong>Nama Driver</strong></div>
+<div style="width:130px;"><strong>NAMA DRIVER</strong></div>
 <div style="width:15px;">:</div>
 <div>${driver}</div>
 </div>
 
 <div style="display:flex;">
-<div style="width:130px;"><strong>No Polisi</strong></div>
+<div style="width:130px;"><strong>NO POLISI</strong></div>
 <div style="width:15px;">:</div>
 <div>${nopol}</div>
 </div>
 
 <div style="display:flex;">
-<div style="width:130px;"><strong>Angkutan</strong></div>
+<div style="width:130px;"><strong>ANGKUTAN</strong></div>
 <div style="width:15px;">:</div>
 <div>${angkutan}</div>
 </div>
 
 <div style="display:flex;">
-<div style="width:130px;"><strong>Mode</strong></div>
+<div style="width:130px;"><strong>MODE</strong></div>
 <div style="width:15px;">:</div>
 <div>${mode}</div>
 </div>
 
 <div style="display:flex;">
-<div style="width:130px;"><strong>Tanggal</strong></div>
+<div style="width:130px;"><strong>TANGGAL</strong></div>
 <div style="width:15px;">:</div>
 <div>${tanggal}</div>
+</div>
+
+<div style="display:flex;">
+<div style="width:130px;"><strong>NO.SP - RETUR</strong></div>
+<div style="width:15px;">:</div>
+<div>${nosurat}</div>
 </div>
 
 </div>
@@ -1304,6 +1316,7 @@ let driver=document.getElementById("driver").value;
 let nopol=document.getElementById("nopol").value;
 let angkutan=document.getElementById("angkutan").value;
 let mode=document.getElementById("mode").value;
+let nosurat=document.getElementById("nosurat").value;
 
 let wb = XLSX.utils.book_new();
 
@@ -1352,6 +1365,7 @@ const infoData = [
 ["No Polisi",nopol],
 ["Angkutan",angkutan],
 ["Mode",mode],
+["No Surat Permohoanan Retur",nosurat],
 ["Tanggal",tanggal]
 ];
 
@@ -1820,6 +1834,7 @@ function hapusSemua(){
 </script>
 </body>
 </html>
+
 
 
 
