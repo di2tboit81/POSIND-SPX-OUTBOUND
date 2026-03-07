@@ -958,10 +958,11 @@ function kirimFormKeFirebase(){
         driver: document.getElementById("driver").value,
         nopol: document.getElementById("nopol").value,
         angkutan: document.getElementById("angkutan").value,
-        mode: document.getElementById("mode").value
+        mode: document.getElementById("mode").value,
+        nosurat: document.getElementById("nosurat").value
     };
 
-    roomRef.child("FORM_R7").set(formData);
+    roomFormRef.set(formData);
 }
 
 ["petugas","driver","nopol","angkutan","mode"].forEach(id=>{
@@ -1776,14 +1777,15 @@ function kirimFormKeFirebase(){
         driver: document.getElementById("driver").value,
         nopol: document.getElementById("nopol").value,
         angkutan: document.getElementById("angkutan").value,
-        mode: document.getElementById("mode").value
+        mode: document.getElementById("mode").value,
+        nosurat: document.getElementById("nosurat").value
     };
 
     roomFormRef.set(formData);
 }
 
 // AUTO KIRIM SAAT DIKETIK
-["petugas","driver","nopol","angkutan","mode"].forEach(id=>{
+["petugas","driver","nopol","angkutan","mode","nosurat"].forEach(id=>{
     document.getElementById(id).addEventListener("input", ()=>{
         kirimFormKeFirebase();
     });
@@ -1795,11 +1797,12 @@ roomFormRef.on("value", snapshot => {
     const data = snapshot.val();
     if(!data) return;
 
-    document.getElementById("petugas").value = data.petugas || "";
-    document.getElementById("driver").value = data.driver || "";
-    document.getElementById("nopol").value = data.nopol || "";
-    document.getElementById("angkutan").value = data.angkutan || "";
-    document.getElementById("mode").value = data.mode || "";
+document.getElementById("petugas").value = data.petugas || "";
+document.getElementById("driver").value = data.driver || "";
+document.getElementById("nopol").value = data.nopol || "";
+document.getElementById("angkutan").value = data.angkutan || "";
+document.getElementById("mode").value = data.mode || "";
+document.getElementById("nosurat").value = data.nosurat || "";
 });
 
 
