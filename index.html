@@ -694,7 +694,7 @@ Total Berat: <span id="totalBerat">0</span> KG
 </div>
 
 <div class="card">
-<button class="btn-danger" onclick="hapusSemua()">Hapus Semua</button>
+<button class="btn-danger" onclick="bukaHapusSemua()">Hapus Semua</button>
 <button class="btn-success" onclick="printPDF()">Print / Save PDF</button>
 <button class="btn-excel" onclick="exportExcel()">Export Excel</button>
 </div>
@@ -971,7 +971,7 @@ function kirimFormKeFirebase(){
     });
 });
 
-function hapusSemua(){
+function hapusSemuaAsli(){
 
 roomRef.remove(); // Hapus semua data di room Firebase
 
@@ -1993,6 +1993,41 @@ function lanjutHapus(){
     tombolDelete = null;
 }
 
+// ================= KONFIRMASI HAPUS SEMUA =================
+
+function bukaHapusSemua(){
+    document.getElementById("confirmHapusSemuaBox").style.display="flex";
+}
+
+function batalHapusSemua(){
+    document.getElementById("confirmHapusSemuaBox").style.display="none";
+}
+
+function lanjutHapusSemua(){
+
+    document.getElementById("confirmHapusSemuaBox").style.display="none";
+
+    roomDataRef.remove();
+    roomFormRef.remove();
+
+    scannedBarcodes = [];
+    scannedData = [];
+
+    document.getElementById("tabelData").innerHTML =
+    `<tr>
+        <th>No</th>
+        <th>Kantong</th>
+        <th>Berat (KG)</th>
+        <th>Hapus</th>
+    </tr>`;
+
+    updateScanCounter();
+    updateTotalBerat();
+
+    localStorage.clear();
+    
+}
+
 </script>
 <!-- ================= BOX INPUT BERAT ================= -->
 <div id="boxBerat" class="berat-overlay">
@@ -2031,6 +2066,28 @@ function lanjutHapus(){
         <div class="berat-buttons">
             <button class="btn-primary" onclick="batalHapus()">BATAL</button>
             <button class="btn-danger" onclick="lanjutHapus()">HAPUS</button>
+        </div>
+
+    </div>
+
+</div>
+<!-- ================= KONFIRMASI HAPUS SEMUA ================= -->
+<div id="confirmHapusSemuaBox" class="berat-overlay">
+
+    <div class="berat-modal" style="max-width:360px">
+
+        <div class="berat-title">
+            ⚠️ HAPUS SEMUA DATA
+        </div>
+
+        <div style="font-size:14px;color:#e2e8f0;margin-bottom:10px">
+            Semua data kantong, berat, dan form akan dihapus.<br><br>
+            <b style="color:#FF6A00">Yakin ingin melanjutkan?</b>
+        </div>
+
+        <div class="berat-buttons">
+            <button class="btn-primary" onclick="batalHapusSemua()">BATAL</button>
+            <button class="btn-danger" onclick="lanjutHapusSemua()">HAPUS SEMUA</button>
         </div>
 
     </div>
