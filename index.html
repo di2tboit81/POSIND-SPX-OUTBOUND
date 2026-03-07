@@ -496,6 +496,77 @@ button{
     transform: scale(0.97);
 }
 
+/* ================= BOX INPUT BERAT ================= */
+
+.berat-overlay{
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:rgba(0,0,0,0.85);
+display:none;
+align-items:center;
+justify-content:center;
+z-index:9999;
+}
+
+.berat-modal{
+width:320px;
+background:linear-gradient(145deg,#0f172a,#111827);
+border-radius:18px;
+padding:25px;
+text-align:center;
+
+box-shadow:
+0 0 25px rgba(255,106,0,0.8),
+0 0 60px rgba(255,106,0,0.4),
+inset 0 0 20px rgba(255,255,255,0.05);
+
+border:2px solid #FF6A00;
+animation:popBerat 0.3s ease;
+}
+
+@keyframes popBerat{
+from{transform:scale(0.7);opacity:0;}
+to{transform:scale(1);opacity:1;}
+}
+
+.berat-title{
+font-size:18px;
+font-weight:700;
+margin-bottom:10px;
+color:#FF6A00;
+text-shadow:0 0 10px #FF6A00;
+}
+
+.berat-barcode{
+font-size:14px;
+margin-bottom:15px;
+color:#e2e8f0;
+}
+
+#inputBeratKg{
+width:100%;
+padding:14px;
+font-size:18px;
+text-align:center;
+border-radius:12px;
+border:none;
+background:#020617;
+color:#fff;
+
+box-shadow:
+inset 0 0 10px rgba(0,0,0,0.7),
+0 0 10px rgba(255,106,0,0.4);
+}
+
+.berat-buttons{
+display:flex;
+gap:10px;
+margin-top:15px;
+}
+
 </style>
 
 <!-- FIREBASE REALTIME SYNC -->
@@ -753,33 +824,8 @@ return;
 beep("https://actions.google.com/sounds/v1/alarms/beep_short.ogg");
 
 // INPUT BERAT
-let berat = prompt("Masukkan Berat (KG) untuk kantong ini:");
-
-if(berat===null || berat.trim()==="" || isNaN(berat)){
-showNotif("❌ Berat tidak valid!","error");
+bukaInputBerat(barcode);
 return;
-}
-
-berat = parseFloat(berat);
-
-// Simpan data
-scannedBarcodes.push(barcode);
-scannedData.push({barcode:barcode, berat:berat});
-simpanLocal();
-
-// Tambah ke tabel
-tambahData(barcode,berat);
-
-// Update counter
-updateScanCounter();
-updateTotalBerat();
-
-// Reset input manual & fokus kembali
-let input = document.getElementById("manualBarcode");
-input.value="";
-input.focus();
-
-showNotif("✅ Berhasil ditambahkan","success");
 }
 
 function onScanSuccess(decodedText){
@@ -1660,33 +1706,6 @@ function kirimKeFirebase(barcode, berat){
 
 
 // =============================
-// OVERRIDE prosesBarcode TANPA MERUSAK LOGIC LAMA
-// =============================
-(function(){
-
-    const prosesAsli = prosesBarcode;
-
-    prosesBarcode = function(barcode){
-
-        let before = scannedBarcodes.length;
-
-        prosesAsli(barcode);
-
-        let after = scannedBarcodes.length;
-
-        // Jika benar-benar bertambah
-        if(after > before){
-            let data = scannedData.find(d => d.barcode === barcode);
-            if(data){
-                kirimKeFirebase(barcode, data.berat);
-            }
-        }
-    };
-
-})();
-
-
-// =============================
 // TERIMA DATA DARI DEVICE LAIN
 // =============================
 roomDataRef.on("child_added", snapshot => {
@@ -1831,9 +1850,124 @@ function hapusSemua(){
 
     alert("✅ Semua data berhasil direset.");
 }
+
+// ================= INPUT BERAT MODAL =================
+
+let barcodePending = null;
+
+function bukaInputBerat(barcode){
+
+    barcodePending = barcode;
+
+    document.getElementById("barcodeBerat").innerHTML =
+        "Kantong : <b style='color:#FF6A00'>" + barcode + "</b>";
+
+    document.getElementById("boxBerat").style.display = "flex";
+
+    // reset input dan fokus
+    const input = document.getElementById("inputBeratKg");
+    input.value = "";
+
+    setTimeout(()=>{
+        input.focus();
+    },200);
+
+}
+
+function batalBerat(){
+    barcodePending = null;
+    document.getElementById("boxBerat").style.display = "none";
+}
+
+function simpanBerat(){
+
+    let input = document.getElementById("inputBeratKg");
+    let berat = input.value;
+
+    if(!barcodePending){
+        showNotif("❌ Barcode tidak ditemukan!","error");
+        return;
+    }
+
+    if(berat === "" || isNaN(berat)){
+        showNotif("❌ Berat tidak valid!","error");
+        return;
+    }
+
+    berat = parseFloat(berat);
+
+    document.getElementById("boxBerat").style.display = "none";
+
+    lanjutProsesBarcode(barcodePending, berat);
+
+    barcodePending = null;
+
+}
+
+function lanjutProsesBarcode(barcode, berat){
+
+// Simpan data
+scannedBarcodes.push(barcode);
+scannedData.push({barcode:barcode, berat:berat});
+simpanLocal();
+
+// Tambah ke tabel
+tambahData(barcode,berat);
+
+// 🔥 KIRIM KE FIREBASE DI SINI
+kirimKeFirebase(barcode, berat);
+
+// Update counter
+updateScanCounter();
+updateTotalBerat();
+
+// Reset input
+let input = document.getElementById("manualBarcode");
+input.value="";
+input.focus();
+
+showNotif("✅ Berhasil ditambahkan","success");
+
+}
+
+// ENTER otomatis simpan berat (lebih stabil)
+document.addEventListener("keydown", function(e){
+
+    // cek apakah box input berat sedang terbuka
+    let box = document.getElementById("boxBerat");
+
+    if(box.style.display === "flex" && e.key === "Enter"){
+        e.preventDefault();
+        simpanBerat();
+    }
+
+});
+
 </script>
+<!-- ================= BOX INPUT BERAT ================= -->
+<div id="boxBerat" class="berat-overlay">
+
+    <div class="berat-modal">
+
+        <div class="berat-title">
+            INPUT BERAT KANTONG
+        </div>
+
+        <div id="barcodeBerat" class="berat-barcode"></div>
+
+        <input type="number" id="inputBeratKg" placeholder="Masukkan Berat (KG)">
+
+        <div class="berat-buttons">
+            <button class="btn-danger" onclick="batalBerat()">BATAL</button>
+            <button class="btn-success" onclick="simpanBerat()">SIMPAN</button>
+        </div>
+
+    </div>
+
+</div>
 </body>
 </html>
+
 
 
 
