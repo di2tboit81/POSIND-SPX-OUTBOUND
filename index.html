@@ -1943,6 +1943,56 @@ document.addEventListener("keydown", function(e){
 
 });
 
+// ================= KONFIRMASI HAPUS BARIS =================
+
+let barcodeDelete = null;
+let tombolDelete = null;
+
+function hapusBaris(btn,barcode){
+
+    barcodeDelete = barcode;
+    tombolDelete = btn;
+
+    document.getElementById("confirmText").innerHTML =
+        "Yakin ingin menghapus kantong:<br><b style='color:#FF6A00'>" + barcode + "</b>?";
+
+    document.getElementById("confirmDeleteBox").style.display = "flex";
+}
+
+function batalHapus(){
+    barcodeDelete = null;
+    tombolDelete = null;
+    document.getElementById("confirmDeleteBox").style.display = "none";
+}
+
+function lanjutHapus(){
+
+    if(!barcodeDelete) return;
+
+    // 🔥 hapus dari Firebase
+    roomDataRef.child(barcodeDelete).remove();
+
+    // hapus dari tabel
+    tombolDelete.parentNode.parentNode.remove();
+
+    // hapus dari array
+    scannedBarcodes = scannedBarcodes.filter(b=>b!==barcodeDelete);
+    scannedData = scannedData.filter(d=>d.barcode!==barcodeDelete);
+
+    simpanLocal();
+
+    updateNomor();
+    updateScanCounter();
+    updateTotalBerat();
+
+    document.getElementById("confirmDeleteBox").style.display = "none";
+
+    showNotif("🗑️ Data berhasil dihapus","error");
+
+    barcodeDelete = null;
+    tombolDelete = null;
+}
+
 </script>
 <!-- ================= BOX INPUT BERAT ================= -->
 <div id="boxBerat" class="berat-overlay">
@@ -1960,6 +2010,27 @@ document.addEventListener("keydown", function(e){
         <div class="berat-buttons">
             <button class="btn-danger" onclick="batalBerat()">BATAL</button>
             <button class="btn-success" onclick="simpanBerat()">SIMPAN</button>
+        </div>
+
+    </div>
+
+</div>
+<!-- ================= KONFIRMASI HAPUS BARIS ================= -->
+<div id="confirmDeleteBox" class="berat-overlay">
+
+    <div class="berat-modal" style="max-width:340px">
+
+        <div class="berat-title">
+            ⚠️ HAPUS DATA
+        </div>
+
+        <div id="confirmText" style="font-size:14px;color:#e2e8f0;margin-bottom:10px">
+            YAKIN NO KANTONG INI DI HAPUS???
+        </div>
+
+        <div class="berat-buttons">
+            <button class="btn-primary" onclick="batalHapus()">BATAL</button>
+            <button class="btn-danger" onclick="lanjutHapus()">HAPUS</button>
         </div>
 
     </div>
